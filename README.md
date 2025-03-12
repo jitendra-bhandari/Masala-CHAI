@@ -93,6 +93,10 @@ For each sample circuit, the output consists of a number of files to help the us
 
 We also provide a helpful visualization of model output using a jupyer notebook: `visualize.ipynb`
 
+## Dataset Link
+
+We utilize Masala-CHAI to create the largest open-sourced corpus for parallel circuit descriptions and SPICE netlists. You can download the dataset here: https://drive.google.com/file/d/1t0Wqo7RIQqqpE3AcbLaIGB9sX5XDsSYm/view?usp=drive_link
+
 ## Citing Auto-SPICE
 
 If you use Auto-SPICE in your research or project, please cite it using the following BibTeX entry:
