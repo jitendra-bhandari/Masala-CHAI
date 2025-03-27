@@ -101,15 +101,15 @@ We utilize Masala-CHAI to create the largest open-sourced corpus for parallel ci
 
 Please refer to `./codellama-endpoints/` for detailed instructions and checkpoints.
 
-## Citing Auto-SPICE
+## Citing Masala-CHAI
 
-If you use Auto-SPICE in your research or project, please cite it using the following BibTeX entry:
+If you use Masala-CHAI or the shared dataset in your research, please cite using the following BibTeX entry:
 
 ```bibtex
-@misc{bhandari2024masalachailargescalespicenetlist,
+@misc{bhandari2025masalachailargescalespicenetlist,
       title={Masala-CHAI: A Large-Scale SPICE Netlist Dataset for Analog Circuits by Harnessing AI}, 
-      author={Jitendra Bhandari and Vineet Bhat and Yuheng He and Siddharth Garg and Hamed Rahmani and Ramesh Karri},
-      year={2024},
+      author={Jitendra Bhandari and Vineet Bhat and Yuheng He and Hamed Rahmani and Siddharth Garg and Ramesh Karri},
+      year={2025},
       eprint={2411.14299},
       archivePrefix={arXiv},
       primaryClass={cs.AR},
