@@ -21,10 +21,8 @@ We have provided an `environment.yml` file to simplify the Conda environment set
 ```bash
 # Create environment from yml
 conda env create -f environment.yml
-
 # Activate the environment
 conda activate codellama-env
-'''
 
 ---
 
