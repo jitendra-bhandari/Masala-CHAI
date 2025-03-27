@@ -97,6 +97,12 @@ We also provide a helpful visualization of model output using a jupyer notebook:
 
 We utilize Masala-CHAI to create the largest open-sourced corpus for parallel circuit descriptions and SPICE netlists. You can download the dataset here: https://drive.google.com/file/d/1t0Wqo7RIQqqpE3AcbLaIGB9sX5XDsSYm/view?usp=drive_link
 
+## Inference with Finetuned Code Llama 70B
+
+Please refer to `./codellama-endpoints/` for detailed instructions and checkpoints.
+
+We utilize Masala-CHAI to create the largest open-sourced corpus for parallel circuit descriptions and SPICE netlists. You can download the dataset here: https://drive.google.com/file/d/1t0Wqo7RIQqqpE3AcbLaIGB9sX5XDsSYm/view?usp=drive_link
+
 ## Citing Auto-SPICE
 
 If you use Auto-SPICE in your research or project, please cite it using the following BibTeX entry:
