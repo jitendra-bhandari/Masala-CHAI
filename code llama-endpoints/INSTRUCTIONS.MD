@@ -23,7 +23,7 @@ We have provided an `environment.yml` file to simplify the Conda environment set
 conda env create -f environment.yml
 # Activate the environment
 conda activate codellama-env
-'''
+```
 
 ---
 
@@ -38,5 +38,6 @@ Due to the size of the CodeLlama-70B model, you will need a GPU with at least 80
 ```bash
 # The script will ask for an input design question from the user
 python codellama-inference.py
+```
 
 
