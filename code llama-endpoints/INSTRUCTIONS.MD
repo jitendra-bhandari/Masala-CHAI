@@ -25,6 +25,8 @@ conda env create -f environment.yml
 # Activate the environment
 conda activate codellama-env
 
+'''
+
 ## 3. GPU Requirements
 
 Due to the size of the CodeLlama-70B model, you will need a GPU with at least 80GB of memory. Our recommended configuration is an NVIDIA A100 80GB for smooth inference.
