@@ -25,7 +25,7 @@ conda env create -f environment.yml
 # Activate the environment
 conda activate codellama-env
 
-'''
+'''bash
 
 ## 3. GPU Requirements
 
