@@ -101,6 +101,10 @@ We utilize Masala-CHAI to create the largest open-sourced corpus for parallel ci
 
 Please refer to `./codellama-endpoints/` for detailed instructions and checkpoints.
 
+## Annotated dataset from Analog-Genie
+
+AnalogGenie (https://github.com/xz-group/AnalogGenie/tree/main) provides a new dataset with SPICE netlists but does not include circuit description captions for fine-tuning LLMs. We used our Masala-CHAI framework on their dataset to generate captions for the respective schematics. You can find this dataset here: `./analoggenie.jsonl`
+
 ## Citing Masala-CHAI
 
 If you use Masala-CHAI or the shared dataset in your research, please cite using the following BibTeX entry:
