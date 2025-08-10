@@ -34,7 +34,7 @@ def gpt_image_oneshot(image_link1, image_link2, new_prompt="This image contains 
     response = ""
     while response == "" and attempts < retry:
         try:
-            response = run_gpt(message_hist, "gpt-4o",api_key).choices[0].message.content
+            response = run_gpt(message_hist, "gpt-5",api_key).choices[0].message.content
         except Exception as e:
             attempts += 1
             if verbose: print("Encountered error:", e)
