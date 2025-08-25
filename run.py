@@ -47,10 +47,25 @@ def encode_image(image_path):  # Function to encode the image
     with open(image_path, "rb") as image_file:
         return base64.b64encode(image_file.read()).decode('utf-8')
 
-prompt_precursor = "This image contains some information about analog circuit. It either contains schematic or spice code of the circuit."
+prompt_precursor = "This image contains some information about analog circuit. It either contains schematic or SPICE code of the circuit."
 bad_message = "NO CODE"
-ask_code = "You are provided with 2 schematics, one that is the original image with no components detected and no net annotation. The second image has some component detected and some node annotated. There would be some text removed from the annotated image that is present in original image, use that also. Your task is to write spice netlist for the schematic treating the first image as golden and second one as helper to guide in the spice generation.the nets are highlighted in red to help identify the connections between the components. Your task is to identify each terminal of the components and map it to the correct net highlighted in red. Follow the below instructions: 1. The first task is to list all the transistor components, current sources, capacitors, inductors and voltage sources which you can observe from the figure. 2. NOTE MOSFET are 3 terminal device with (drain, gate, source) and body terminal connected to source, and Current/Voltage source are 2 terminal device. You have obtained the list of components from the previous step. 3. For NMOS, the arrow on the source terminal points outwards from the transistor. For PMOS, the arrow on the source terminal points inward toward the transistor. Provide SPICE netlist inside ``` ```"
-# supervised addition
+ask_code = """You are provided with 2 schematics, one that is the original image with no components detected and no annotation on nets. 
+The second image has some components detected and some nodes annotated. 
+NOTE: There would be some text removed from the annotated image that is present in the original image. Use them from the original image, which contains some important information. 
+Your task is to write a SPICE netlist for the schematic, treating the no-annotation image as golden and the one with annotations as a helper to guide the spice generation.
+The nets are numbered in red to help identify the connections between the components. 
+Your task is to identify each terminal of the components and map it to the correct net highlighted in red. 
+Follow the instructions below to come up with the correct SPICE netlist: 
+1. The first task is to list all the transistor components, current sources, capacitors, inductors, and voltage sources that you can observe from the figure. 
+2. NOTE MOSFETs are 3-terminal devices with (drain, gate, source) and body terminal connected to source, and Current/Voltage/Resistor source are 2-terminal devices. 
+You have obtained the list of components from the previous step. 
+3. Due to net detection not being properly annotated in some cases, be careful and correctly identify the net number for the component. 
+If there are 2 numbers in the same nets or if two nets seem connected from the original image, use only one of the net number and be consistent across the whole schematics. 
+In some cases, MOSFETs can be rotated versions of the common way the MOSFETs are represented, so be careful for such scenarios. 
+For NMOS, the arrow on the source terminal points outwards from the MOSFET. 
+For PMOS, the arrow on the source terminal points inward toward the MOSFET.
+4. Write SPICE netlists inside ``` ```.
+"""
 ask_caption = "This image contains some analog circuit either schematic or spice code on it. Please give a short caption to describe this circuit."
 # additional queries
 ask_question = "This image contains some analog circuit either schematic or spice code on it. Please respond with a question for which the answer is either the schematic or spice code snippet on this page."
