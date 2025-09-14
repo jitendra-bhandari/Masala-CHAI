@@ -107,7 +107,7 @@ def annotate_bounding_boxes(image_path, predictions):
 def comp_detection(image_path):
 
     # Load the pretrained YOLO model
-    model = YOLO("/home/jb7410/AnalogLLM/Yolov8/best.pt")
+    model = YOLO("trained_checkpoints/yolov8_best.pt")
 
     if not os.path.exists(image_path):
             print(f"Error: The image {image_path} does not exist.")
