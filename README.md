@@ -5,6 +5,8 @@ Masala-CHAI is a fully automated framework leveraging large language models (LLM
 
 For full paper, use this link: https://arxiv.org/abs/2411.14299
 
+Update 24th Dec 2025: A new version of the framework and dataset is being prepared that includes a validation LLM agent to verify the accuracy of the generated netlists. Stay tuned!
+
 ## File and Folder Description
 
 - `./hough/` : Folder containing scripts to use Hough Transform for net detection. Due to large size of the files, download the hough/ content from this Google Drive link: https://drive.google.com/file/d/1mTwWWSMsYwhJW-GfKKVm21Lm5lVtMJ1y/view?usp=sharing
