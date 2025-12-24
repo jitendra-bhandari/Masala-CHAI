@@ -5,7 +5,7 @@ Masala-CHAI is a fully automated framework leveraging large language models (LLM
 
 For full paper, use this link: https://arxiv.org/abs/2411.14299
 
-Update 24th Dec 2025: A new version of the framework and dataset is being prepared that includes a validation LLM agent to verify the accuracy of the generated netlists. Stay tuned!
+**Update 24th Dec 2025:** A new version of the framework and dataset is being prepared that includes a validation LLM agent to verify the accuracy of the generated netlists. Stay tuned!
 
 ## File and Folder Description
 
