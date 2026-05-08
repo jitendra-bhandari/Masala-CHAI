@@ -1,125 +1,90 @@
 # Masala-CHAI: A Large-Scale SPICE Netlist Dataset for Analog Circuits by Harnessing AI
 
 ## Abstract
-Masala-CHAI is a fully automated framework leveraging large language models (LLMs) to generate Simulation Programs with Integrated Circuit Emphasis (SPICE) netlists. It addresses a long-standing challenge in circuit design automation: automating netlist generation for analog circuits. Automating this workflow could accelerate the creation of fine-tuned LLMs for analog circuit design and verification. In this work, we identify key challenges in automated netlist generation and evaluate multimodal capabilities of state-of-the-art LLMs, particularly GPT-4, in addressing them. We propose a three-step workflow to overcome existing limitations: labeling analog circuits, prompt tuning, and netlist verification. This approach enables end-to-end SPICE netlist generation from circuit schematic images, tackling the persistent challenge of accurate netlist generation. We utilize Masala-CHAI to collect a corpus of 7,500 schematics that span varying complexities in 10 textbooks and benchmark various open source and proprietary LLMs. Models fine-tuned on Masala-CHAI when used in LLM-agentic frameworks such as AnalogCoder achieve a notable 46% improvement in Pass@1 scores. We open-source our dataset and code for community-driven development.
+Masala-CHAI is a fully automated framework leveraging large language models (LLMs) to generate Simulation Programs with Integrated Circuit Emphasis (SPICE) netlists. It addresses a long-standing challenge in circuit design automation: automating netlist generation for analog circuits. Automating this workflow could accelerate the creation of fine-tuned LLMs for analog circuit design and verification. In this work, we identify key challenges in automated netlist generation and evaluate multimodal capabilities of state-of-the-art LLMs, particularly GPT-4, in addressing them. We propose a three-step workflow to overcome existing limitations: labeling analog circuits, prompt tuning, and netlist verification. This approach enables end-to-end SPICE netlist generation from circuit schematic images, tackling the persistent challenge of accurate netlist generation. We utilize Masala-CHAI to collect a corpus of 7,500 schematics that span varying complexities in 10 textbooks and benchmark various open source and proprietary LLMs. Models fine-tuned on Masala-CHAI when used in LLM-agentic frameworks such as AnalogCoder achieve a notable **46% improvement in Pass@1 scores**. We open-source our dataset and code for community-driven development.
 
-For full paper, use this link: https://arxiv.org/abs/2411.14299
+Full paper: https://arxiv.org/abs/2411.14299
 
 > [!NOTE]
-> **December 24, 2025**: A new version of the framework and dataset is being prepared that includes a validation LLM agent to verify the accuracy of the generated netlists. Stay tuned!
+> **May 2026**: V2 multi-agent pipeline now available with ngspice simulation validation and iterative judge feedback. See [Pipeline V2](#pipeline-v2-multi-agent-with-judge) below.
 
+---
 
-## File and Folder Description
+## Setup
 
-- `./hough/` : Folder containing scripts to use Hough Transform for net detection. Due to large size of the files, download the hough/ content from this Google Drive link: https://drive.google.com/file/d/1mTwWWSMsYwhJW-GfKKVm21Lm5lVtMJ1y/view?usp=sharing
-- `./models/` : Folder containing scripts for YOLOv8-based circuit component detection.
-- `./sample-images/` : Folder containing sample images to run the Auto-SPICE netlist generator.
-- `./trained_checkpoints/` : Contains checkpoint file for YOLOv8 model after training.
-- `./utils/` : Supporting scripts for various components of the Auto-SPICE pipeline.
-- `./Dataset/` : Folder containing dataset of the images with schematics.
-     - This contains images from AMSNet repo as well.
-     - Arranged across different data_* folder depending upon their sources.
-- `main.py` : Main script that runs the entire pipeline.
-- `run.py` : Script to be called for generating netlists for sample images.
-- `environment.yml`: Requirements file for creating conda environment
-- `visualize.ipynb`: Jupyter notebook for visualizing output of Autospice for a given circuit diagram
+```bash
+git clone <repository_url>
+cd repository_name
+conda env create -f environment.yml
+conda activate autospice_env
+pip install ngspice
+```
 
-## Steps to Run the Framework
+Download Hough Transform model: https://drive.google.com/file/d/1mTwWWSMsYwhJW-GfKKVm21Lm5lVtMJ1y/view?usp=sharing — extract to `./hough/`
 
-1. **Clone the repository and navigate into the repository:**
+---
 
-   ```bash
-   git clone <repository_url>
-   cd <repository_name>
-2. **Create a Conda environment:**
+## Pipeline V1 (Original)
 
-   ```bash
-   conda env create -f environment.yml
-3. **Activate the Conda environment:**
-	```bash
-   conda activate autospice_env
-4. **Add sample images:**
-	Place your sample images in the `./sample-images/` folder.
-5. **Run the pipeline:**
-	```bash
-	python run.py --src ./sample-images/ --tgt ./sample-output --api_key <openai_api_key>
-	where - 
-	- `--src` : Directory path to the sample images.
-	- `--tgt` : Output directory path for the generated netlists.
-	- `--api_key` : Your OpenAI API key for using GPT-4
+```bash
+python main.py \
+  --src ./data/sample-images/ \
+  --tgt ./sample-output \
+  --api_key <openai_api_key>
+```
 
-## Schematic Caption Generation using GPT-4o
+**Outputs per image:** `scanned_circuit.png`, `detected_components.png`, `component_removed_circuit.png`, `nodes_terminals.png`, `rebuilt_circuit.png`, `sample_statistics.json`, `spice.txt`
 
-1. **Extract and Annotate Schematics:**
-    - Use the `utils/extract_page.py` script to process textbook PDFs and automatically detect schematic images.
-    - This script will crop and annotate the images, saving them into separate folders in the same directory as the original PDF.
-    - The cropped images can be used to run the Masala-CHAI framework.
+---
 
-    ```bash
-    python utils/extract_page.py <path_to_your_pdf> 
-    ```
-    **Notes**:
-    - `<path_to_your_pdf>` is the full path to the PDF file containing schematics.
-    - `./annotation_data.json` is the json file which contains all information about the annotated pages, bounding boxes, etc.
-    - `./cropped_images/` is where the cropped circuit diagrams are saved
+## Pipeline V2 (Multi-Agent with Judge)
 
-2. **Generate Captions for Annotated Images:**
-    - Please rename `./annotation_data.json` to `./annotation_data_pdfname.json`. You will also need an OpenAI API Key for the next step.
-    - Once the images are annotated, you can run the `utils/caption-generator.py` script to utilize GPT-4o for generating captions.
-    - The captions are saved in a folder alongside the annotated images.
+V2 replaces the single LLM pass with three specialized agents and an ngspice simulation check:
 
-    ```bash
-    python utils/caption-generator.py <path_to_your_pdf> 
-    ```
-    **Notes**:
-    - `--./descriptions_short_<pdfname>`: The path to the folder containing generated captions for all circuit diagrams
-    - The descriptons can be paired with their corresponding SPICE netlist generated by the framework to fine-tune LLMs
+- **Agent 1** — validates YOLO detections, corrects types, flags missed components
+- **Agent 2** — traces connectivity visually, generates SPICE netlist, runs ngspice
+- **Judge** — verifies component completeness, checks simulation, sends feedback to agents on failure (up to 2 revisions)
 
+**Run:**
+```bash
+export OPENAI_API_KEY='your-key'
 
-## Descriptions of outputs obtained from Masala-CHAI framework
+# Single image
+python -m agents_v2.run --image data/sample-images/330.jpg --output agents_v2_output/
 
-For each sample circuit, the output consists of a number of files to help the user understand the output of various components in the pipeline:
+# Batch
+python -m agents_v2.run --batch data/sample-images/ --output results/ --parallel --workers 4
+```
 
-1. **scanned_circuit.png**: Copy of the original circuit diagram.
-2. **detected_components.png**, **component_removed_circuit.png**, **components_description.txt**: Output of the YOLOv8 component detection module:
-   - `detected_components.png`: Components marked with bounding boxes.
-   - `component_removed_circuit.png`: Components replaced with white spaces.
-   - `components_description.txt`: Text file containing the description of the detected components.
-3. **nodes_terminals.png**, **connections_descriptions.txt**, **nodes_description.txt**: Detected nodes in the circuit using Hough Transform:
-   - `nodes_terminals.png`: Detected nodes in the circuit.
-   - `connections_descriptions.txt`: Text file containing descriptions of various connections.
-   - `nodes_description.txt`: Text file containing the description of various nodes in the circuit.
-4. **text_and_comp_removed_circuit.png**: Original circuit diagram after removing all text content and detected circuit components.
-5. **rebuilt_circuit.png**: Original circuit diagram overlaid with components and nodes.
-6. **original_withComponentsAndLineLabels.png**, **original_withLineLabels.png**: Used for better visualization of the model output.
-7. **sample_statistics.json**: Dictionary describing types of components in the circuit, along with node and net information.
-8. **spice.txt**: Final generated SPICE netlist for the circuit diagram.
+**V2 outputs** (in `agents_v2_output/agents/<name>/`): `.sp` netlist, `_simulation.log`, `_judge_result.json`, `_validated_components.json`, `_llm_flow.md`
 
-We also provide a helpful visualization of model output using a jupyer notebook: `visualize.ipynb`
+---
 
-## Dataset Link
+## Schematic Caption Generation
 
-We utilize Masala-CHAI to create the largest open-sourced corpus for parallel circuit descriptions and SPICE netlists. You can download the dataset here: https://drive.google.com/file/d/1aNC-8mye_Pbw9nYS0cmN2ggUaThJHUP2/view?usp=sharing
+```bash
+python utils/extract_page.py <path_to_pdf>       # extract schematics from PDF
+python utils/caption-generator.py <path_to_pdf>  # generate GPT-4o captions
+```
 
-## Inference with Finetuned Code Llama 70B
+---
 
-Please refer to `./codellama-endpoints/` for detailed instructions and checkpoints.
+## Dataset
 
-## Annotated dataset from Analog-Genie
+Download (7,500 schematics, 10 textbooks): https://drive.google.com/file/d/1aNC-8mye_Pbw9nYS0cmN2ggUaThJHUP2/view?usp=sharing
 
-AnalogGenie (https://github.com/xz-group/AnalogGenie/tree/main) provides a new dataset with SPICE netlists but does not include circuit description captions for fine-tuning LLMs. We used our Masala-CHAI framework on their dataset to generate captions for the respective schematics. You can find this dataset here: `./analoggenie.jsonl`
+---
 
-## Citing Masala-CHAI
-
-If you use Masala-CHAI or the shared dataset in your research, please cite using the following BibTeX entry:
+## Citation
 
 ```bibtex
 @misc{bhandari2025masalachailargescalespicenetlist,
-      title={Masala-CHAI: A Large-Scale SPICE Netlist Dataset for Analog Circuits by Harnessing AI}, 
+      title={Masala-CHAI: A Large-Scale SPICE Netlist Dataset for Analog Circuits by Harnessing AI},
       author={Jitendra Bhandari and Vineet Bhat and Yuheng He and Hamed Rahmani and Siddharth Garg and Ramesh Karri},
       year={2025},
       eprint={2411.14299},
       archivePrefix={arXiv},
       primaryClass={cs.AR},
-      url={https://arxiv.org/abs/2411.14299}, 
+      url={https://arxiv.org/abs/2411.14299},
 }
+```
