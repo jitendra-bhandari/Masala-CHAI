@@ -1,0 +1,39 @@
+
+# Large files
+*.mat
+*.pt
+*.pth
+*.tar
+*.zip
+
+# Model checkpoints
+runs/
+trained_checkpoints/
+hough/checkpoint*
+
+# Output / data directories
+masala_chai_50_output/
+masala_chai_output/
+MasalaChai/
+training_data/
+agents_v2_output/
+agents_v2_output_2525/
+agents_v2_output_2525.zip
+agents_v2_test_scaffolding/
+data/
+experiments/
+other_datasets/
+
+# Python cache
+*.pyc
+*.pyc.gz
+__pycache__/
+.ipynb_checkpoints/
+
+# Misc
+*.log
+batch.log
+cursor/
+conda/
+.DS_Store
+.cursor/
