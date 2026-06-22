@@ -88,3 +88,13 @@ Download (7,500 schematics, 10 textbooks): https://drive.google.com/file/d/1aNC-
       url={https://arxiv.org/abs/2411.14299},
 }
 ```
+
+## Star History
+
+<a href="https://www.star-history.com/?repos=jitendra-bhandari%2FMasala-CHAI&type=date&legend=top-left">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=jitendra-bhandari/Masala-CHAI&type=date&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=jitendra-bhandari/Masala-CHAI&type=date&legend=top-left" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=jitendra-bhandari/Masala-CHAI&type=date&legend=top-left" />
+ </picture>
+</a>
