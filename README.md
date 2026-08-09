@@ -71,7 +71,7 @@ python utils/caption-generator.py <path_to_pdf>  # generate GPT-4o captions
 
 ## Dataset
 
-Download (7,500 schematics, 10 textbooks): https://drive.google.com/file/d/1aNC-8mye_Pbw9nYS0cmN2ggUaThJHUP2/view?usp=sharing
+Download (7,500 schematics, 10 textbooks): Updated dataset will be available soon.
 
 ---
 
