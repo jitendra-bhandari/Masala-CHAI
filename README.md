@@ -76,7 +76,8 @@ Download (7,500 schematics, 10 textbooks): Updated dataset will be available soo
 ---
 
 ## License
-This project is licensed under the MIT License.
+
+This project is licensed under the [MIT License](#LICENSE)
 
 ---
 
